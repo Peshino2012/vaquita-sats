@@ -3,7 +3,7 @@
 **Dividí un gasto entre amigos, compartí un link y cada uno paga su parte con Lightning. Cada pago se verifica solo con zaps de Nostr: nadie tiene que mandar capturas.**
 
 🌐 **App:** https://peshino2012.github.io/vaquita-sats/
-🏆 Proyecto para [Lightning Hackathons 2026 #8 — INTEGRATION](https://github.com/lacrypta/hackathons-2026) de La Crypta.
+⚡ Si te sirve, podés dejar una propina en sats desde la misma app o a `engagedsheet14@walletofsatoshi.com`.
 
 | Quien organiza (escritorio) | Quien paga (celular) | Pago verificado |
 |---|---|---|
@@ -107,7 +107,7 @@ El workflow [`billeteras-reales`](.github/workflows/billeteras-reales.yml) corre
 npm install
 npm start            # http://127.0.0.1:4173 (con `node e2e/servidor.mjs --relay`, también un relay local)
 npm test             # 23 tests unitarios: montos, cifrado, LNURL, cotización, validación de recibos
-npm run test:e2e     # 5 tests de punta a punta en Chromium con relay local y billetera simulada
+npm run test:e2e     # 6 tests de punta a punta en Chromium con relay local y billetera simulada
 npm run vendor       # regenera vendor/ desde node_modules
 ```
 
@@ -121,6 +121,7 @@ No hay paso de build: la app son módulos ES servidos tal cual, así que el mism
 | `nostr.js` | Publicar y escuchar la vaquita y los recibos en los relays |
 | `precio.js` | Cotización BTC/ARS con tres fuentes |
 | `app.js` | Interfaz |
+| `config.js` | Dirección para las propinas |
 | `e2e/` | Tests de Playwright, relay Nostr local y generador de capturas |
 | `test/` | Tests unitarios y billetera LNURL simulada que firma recibos como una real |
 | `probe/` | Pruebas contra billeteras y relays reales |
@@ -131,6 +132,10 @@ No hay paso de build: la app son módulos ES servidos tal cual, así que el mism
 - La parte de cada uno en sats se fija con la cotización del momento de crear la vaquita.
 - Cualquiera que tenga el link ve los nombres y puede pagar la parte de cualquiera. Es a propósito, porque así se usa entre amigos.
 - Si todos los relays configurados borraran el evento, la vaquita no se podría abrir. Por eso se publica en cuatro relays.
+
+## Propinas
+
+La app tiene un panel "Apoyá Vaquita" para dejar una propina en sats. La propina también se paga como zap, así que la app confirma sola cuando llegó. La dirección está en [`config.js`](config.js): si hacés un fork, cambiala por la tuya.
 
 ## Licencia
 

@@ -6,6 +6,7 @@ import { resolverDireccion, armarPedidoZap, pedirFactura, validarRecibo } from '
 import { precioBtcArs } from './precio.js';
 import * as N from './nostr.js';
 import { svgQR } from './qr.js';
+import { PROPINAS } from './config.js';
 
 const $ = (id) => document.getElementById(id);
 const BASE = location.origin + location.pathname;
@@ -439,20 +440,14 @@ async function obtenerInfo(a) {
   return a.info;
 }
 
-async function pagar(id) {
-  const a = app.actual;
-  if (!a?.datos) return;
-  const d = a.datos;
-  const p = L.estadoVaquita(d, [...a.aportes.values()]).personas.find((x) => x.id === id);
-  if (!p) return;
-  const sats = p.estado === 'parcial' ? p.falta : p.sats;
-
+/** Abre el diálogo de pago en estado "generando factura". */
+function abrirDialogo({ id, titulo, sats, pesos, listo, nota }) {
   app.pago = { id, pr: null };
-  $('pago-titulo').textContent = `Pagar la parte de ${p.nombre}`;
+  $('pago-titulo').textContent = titulo;
   $('pago-sats').textContent = L.formatoSats(sats);
-  // La parte completa se muestra en los pesos que cargó quien organiza (sin el redondeo a sats).
-  const pesos = p.estado !== 'parcial' && p.pesos != null ? p.pesos : d.precio ? L.satsAPesos(sats, d.precio.arsPorBtc) : null;
   $('pago-pesos').textContent = pesos != null ? `≈ ${L.formatoPesos(pesos)}` : '';
+  $('pago-listo-titulo').textContent = listo;
+  $('pago-listo-nota').textContent = nota;
   $('pago-qr').replaceChildren();
   $('pago-qr').hidden = true;
   $('pago-cuerpo').hidden = false;
@@ -461,6 +456,30 @@ async function pagar(id) {
   $('pago-webln').hidden = true;
   estadoPago('Generando la factura…', 'esperando');
   if (!dlg.open) dlg.showModal();
+}
+
+/** Muestra la factura (QR, botón a la billetera, copiar, WebLN). */
+function mostrarFactura(pr, espera) {
+  app.pago.pr = pr;
+  $('pago-qr').replaceChildren(svgQR(`lightning:${pr}`.toUpperCase(), { etiqueta: 'QR de la factura Lightning' }));
+  $('pago-qr').hidden = false;
+  $('pago-abrir').href = `lightning:${pr}`;
+  $('pago-abrir').hidden = false;
+  $('pago-copiar').hidden = false;
+  $('pago-webln').hidden = !window.webln;
+  estadoPago(espera, 'esperando');
+}
+
+async function pagar(id) {
+  const a = app.actual;
+  if (!a?.datos) return;
+  const d = a.datos;
+  const p = L.estadoVaquita(d, [...a.aportes.values()]).personas.find((x) => x.id === id);
+  if (!p) return;
+  const sats = p.estado === 'parcial' ? p.falta : p.sats;
+  // La parte completa se muestra en los pesos que cargó quien organiza (sin el redondeo a sats).
+  const pesos = p.estado !== 'parcial' && p.pesos != null ? p.pesos : d.precio ? L.satsAPesos(sats, d.precio.arsPorBtc) : null;
+  abrirDialogo({ id, titulo: `Pagar la parte de ${p.nombre}`, sats, pesos, listo: '¡Pago recibido!', nota: 'Verificado con el comprobante que firmó la billetera de quien organiza.' });
 
   try {
     const info = await obtenerInfo(a);
@@ -471,15 +490,51 @@ async function pagar(id) {
     const plantilla = armarPedidoZap({ info, vaquitaPk: a.pubkey, coordenada: N.coordenada(a.pubkey, a.d), eventoId: a.evento.id, persona: id, sats, relays: a.relays.slice(0, 5) });
     const { pr } = await pedirFactura({ info, sats, pedido: N.firmar(plantilla, sk) });
     if (app.pago?.id !== id || !dlg.open) return;
-    app.pago.pr = pr;
-    if (a.aportes.has(pr)) return pagoConfirmado();
-    $('pago-qr').replaceChildren(svgQR(`lightning:${pr}`.toUpperCase(), { etiqueta: 'QR de la factura Lightning' }));
-    $('pago-qr').hidden = false;
-    $('pago-abrir').href = `lightning:${pr}`;
-    $('pago-abrir').hidden = false;
-    $('pago-copiar').hidden = false;
-    $('pago-webln').hidden = !window.webln;
-    estadoPago('Esperando el pago… Escaneá el QR con tu billetera: se confirma solo.', 'esperando');
+    if (a.aportes.has(pr)) {
+      app.pago.pr = pr;
+      return pagoConfirmado();
+    }
+    mostrarFactura(pr, 'Esperando el pago… Escaneá el QR con tu billetera: se confirma solo.');
+  } catch (e) {
+    if (app.pago?.id === id) estadoPago(e.message || 'No pudimos generar la factura.', 'error');
+  }
+}
+
+/* ---------- Propinas para el proyecto ---------- */
+
+let cerrarPropina = null;
+let infoPropinas = null;
+
+async function propina(sats) {
+  const id = `propina-${sats}`;
+  abrirDialogo({
+    id,
+    titulo: 'Propina para Vaquita',
+    sats,
+    pesos: app.precio ? L.satsAPesos(sats, app.precio.arsPorBtc) : null,
+    listo: '¡Gracias por la propina!',
+    nota: 'Ayuda a mantener Vaquita gratis, sin publicidad y de código abierto.',
+  });
+  try {
+    infoPropinas ??= await resolverDireccion(PROPINAS.direccion);
+    const info = infoPropinas;
+    const relays = relaysPorDefecto();
+    const plantilla = armarPedidoZap({ info, vaquitaPk: PROPINAS.pubkey, persona: 'propina', sats, relays: relays.slice(0, 5), comentario: 'Propina para Vaquita' });
+    const { pr } = await pedirFactura({ info, sats, pedido: N.firmar(plantilla, N.nuevaIdentidad().sk) });
+    if (app.pago?.id !== id || !dlg.open) return;
+    if (info.allowsNostr) {
+      cerrarPropina?.();
+      cerrarPropina = N.escucharRecibos({
+        pubkey: PROPINAS.pubkey,
+        relays,
+        desde: Math.floor(Date.now() / 1000) - 120,
+        onRecibo: (ev) => {
+          const aporte = validarRecibo(ev, { nostrPubkey: info.nostrPubkey, vaquitaPk: PROPINAS.pubkey });
+          if (aporte && app.pago?.pr === aporte.bolt11) pagoConfirmado();
+        },
+      });
+    }
+    mostrarFactura(pr, info.allowsNostr ? 'Esperando el pago… se confirma solo.' : 'Cuando pagues, podés cerrar esta ventana.');
   } catch (e) {
     if (app.pago?.id === id) estadoPago(e.message || 'No pudimos generar la factura.', 'error');
   }
@@ -536,7 +591,15 @@ $('pago-copiar').addEventListener('click', () => app.pago?.pr && copiar(app.pago
 $('pago-webln').addEventListener('click', pagarConWebln);
 $('pago-cerrar').addEventListener('click', () => dlg.close());
 $('pago-ok').addEventListener('click', () => dlg.close());
-dlg.addEventListener('close', () => (app.pago = null));
+dlg.addEventListener('close', () => {
+  app.pago = null;
+  cerrarPropina?.();
+  cerrarPropina = null;
+});
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-propina]');
+  if (b) propina(Number(b.dataset.propina));
+});
 window.addEventListener('hashchange', enrutar);
 
 const red = () => ($('red').hidden = navigator.onLine);

@@ -175,3 +175,20 @@ test('links rotos o con la clave equivocada', async ({ page }) => {
   await page.goto(link.replace(/v=naddr1[a-z0-9]+/, 'v=naddr1qqqqqq'));
   await expect(page.locator('#cargando-txt')).toContainText('incompleto o roto');
 });
+
+test('propina para el proyecto: factura, QR y confirmación con el recibo de zap', async ({ page }) => {
+  const billetera = crearBilleteraFalsa();
+  const propinas = crearBilleteraFalsa({ dominio: 'walletofsatoshi.com', usuario: 'engagedsheet14' });
+  await preparar(page, billetera);
+  await preparar(page, propinas);
+  await page.goto('./');
+  await page.getByRole('button', { name: '1.000 sats' }).click();
+  const dialogo = page.getByRole('dialog');
+  await expect(dialogo.getByRole('heading')).toHaveText('Propina para Vaquita');
+  await expect(dialogo.getByRole('img', { name: 'QR de la factura Lightning' })).toBeVisible();
+  const { pr, pedido } = propinas.pedidos.at(-1);
+  expect(pedido.tags.find((t) => t[0] === 'amount')[1]).toBe('1000000');
+  expect(pedido.content).toBe('Propina para Vaquita');
+  await publicarEn(RELAY, propinas.recibo(pr));
+  await expect(dialogo.getByText('¡Gracias por la propina!')).toBeVisible();
+});

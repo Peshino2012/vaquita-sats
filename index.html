@@ -102,6 +102,16 @@
             </ol>
             <p class="note">Los nombres y montos viajan cifrados: la clave va en el link y ningún servidor la ve. No hace falta cuenta ni instalar nada.</p>
           </section>
+
+          <section class="panel propina" aria-labelledby="t-propina-inicio">
+            <h2 id="t-propina-inicio">Apoyá Vaquita</h2>
+            <p class="note">Es gratis, sin publicidad y de código abierto. Si te sirvió, dejá una propina en sats.</p>
+            <div class="acciones propina-montos">
+              <button class="btn btn-ghost" type="button" data-propina="210">210 sats</button>
+              <button class="btn btn-ghost" type="button" data-propina="1000">1.000 sats</button>
+              <button class="btn btn-ghost" type="button" data-propina="5000">5.000 sats</button>
+            </div>
+          </section>
         </aside>
       </div>
     </main>
@@ -169,13 +179,23 @@
             <ul id="actividad" class="actividad"></ul>
             <p id="actividad-vacia" class="note">Todavía no entró ningún pago.</p>
           </section>
+
+          <section class="panel propina" aria-labelledby="t-propina-vaquita">
+            <h2 id="t-propina-vaquita">Apoyá Vaquita</h2>
+            <p class="note">Es gratis, sin publicidad y de código abierto. Si te sirvió, dejá una propina en sats.</p>
+            <div class="acciones propina-montos">
+              <button class="btn btn-ghost" type="button" data-propina="210">210 sats</button>
+              <button class="btn btn-ghost" type="button" data-propina="1000">1.000 sats</button>
+              <button class="btn btn-ghost" type="button" data-propina="5000">5.000 sats</button>
+            </div>
+          </section>
         </aside>
       </div>
     </main>
 
     <footer class="foot">
-      <p>Vaquita es software libre (MIT). Los pagos van directo a la billetera de quien organiza: la app nunca toca la plata. Hecho para las <a href="https://github.com/lacrypta/hackathons-2026" target="_blank" rel="noopener">Lightning Hackathons 2026 de La Crypta</a>.</p>
-      <p><a id="link-codigo" href="https://github.com/Peshino2012/vaquita-sats" target="_blank" rel="noopener">Código fuente</a> · Vaquita 1.0</p>
+      <p>Vaquita es software libre (MIT). Los pagos van directo a la billetera de quien organiza: la app nunca toca la plata. Hecho en Argentina con Lightning y Nostr.</p>
+      <p><a id="link-codigo" href="https://github.com/Peshino2012/vaquita-sats" target="_blank" rel="noopener">Código fuente</a> · Vaquita 1.1</p>
     </footer>
   </div>
 
@@ -196,8 +216,8 @@
     </div>
     <div id="pago-listo" class="pago-listo" hidden>
       <p class="tilde" aria-hidden="true">✓</p>
-      <p><strong>¡Pago recibido!</strong></p>
-      <p class="note">Verificado con el comprobante que firmó la billetera de quien organiza.</p>
+      <p><strong id="pago-listo-titulo">¡Pago recibido!</strong></p>
+      <p id="pago-listo-nota" class="note">Verificado con el comprobante que firmó la billetera de quien organiza.</p>
       <button id="pago-ok" class="btn btn-primary" type="button">Listo</button>
     </div>
   </dialog>

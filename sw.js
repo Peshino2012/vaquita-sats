@@ -1,8 +1,8 @@
 // Service worker: guarda la app para que abra rápido y sin conexión. Los datos
 // (relays, billeteras, cotización) siempre van a la red.
-const VERSION = 'vaquita-v1';
+const VERSION = 'vaquita-v2';
 const APP = [
-  './', 'index.html', 'styles.css', 'app.js', 'logic.js', 'cripto.js', 'lightning.js', 'nostr.js', 'precio.js', 'qr.js',
+  './', 'index.html', 'styles.css', 'app.js', 'logic.js', 'cripto.js', 'lightning.js', 'nostr.js', 'precio.js', 'qr.js', 'config.js',
   'vendor/nostr.js', 'vendor/qrcode.js', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png',
 ];
 

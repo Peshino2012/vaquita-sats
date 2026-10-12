@@ -55,6 +55,12 @@ export async function publicarVaquita({ sk, d, contenido, relays, anterior = 0 }
   return evento;
 }
 
+/** Escucha recibos de zap dirigidos a una clave desde un momento dado (propinas). */
+export function escucharRecibos({ pubkey, relays, desde, onRecibo }) {
+  const s = getPool().subscribeMany(relays, { kinds: [9735], '#p': [pubkey], since: desde }, { onevent: onRecibo });
+  return () => s.close();
+}
+
 /** Escucha la vaquita (y sus ediciones) y los recibos de zap dirigidos a ella. */
 export function escuchar({ pubkey, d, relays, onVaquita, onRecibo, onListo }) {
   let pendientes = 2;

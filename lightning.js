@@ -62,17 +62,16 @@ export async function resolverDireccion(direccion, fetchImpl = fetch) {
 }
 
 /** Pedido de zap (kind 9734, sin firmar) para pagar la parte de una persona. */
-export function armarPedidoZap({ info, vaquitaPk, coordenada, eventoId, persona, sats, relays, ahora = Date.now() }) {
+export function armarPedidoZap({ info, vaquitaPk, coordenada, eventoId, persona, sats, relays, comentario = 'Aporte a la vaquita', ahora = Date.now() }) {
   const tags = [
     ['relays', ...relays],
     ['amount', String(sats * 1000)],
     ['lnurl', info.lnurl],
     ['p', vaquitaPk],
-    ['a', coordenada],
   ];
+  if (coordenada) tags.push(['a', coordenada]);
   if (eventoId) tags.push(['e', eventoId]);
   tags.push(['vaquita', persona]);
-  const comentario = 'Aporte a la vaquita';
   return { kind: 9734, created_at: Math.floor(ahora / 1000), tags, content: info.commentAllowed >= comentario.length ? comentario : '' };
 }
 
