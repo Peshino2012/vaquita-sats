@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https: wss: ws://localhost:* ws://127.0.0.1:*; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Vaquita ⚡ — Gastos compartidos en sats</title>
+  <meta name="description" content="Dividí un gasto entre amigos y que cada uno pague su parte en sats. Los pagos se verifican solos con zaps de Nostr.">
+  <meta name="theme-color" content="#faf6ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#13110e" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="Vaquita ⚡ — Gastos compartidos en sats">
+  <meta property="og:description" content="Compartí un link y cada uno paga su parte con Lightning. Sin capturas: cada pago queda verificado.">
+  <meta property="og:image" content="icons/icon-512.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="./" aria-label="Vaquita, inicio">
+        <img src="icons/icon-192.png" alt="" width="36" height="36">
+        <span>
+          <strong>Vaquita</strong>
+          <small>Gastos compartidos en sats</small>
+        </span>
+      </a>
+      <span id="red" class="red" role="status" aria-live="polite" hidden>Sin conexión</span>
+    </header>
+
+    <!-- ============ Inicio ============ -->
+    <main id="vista-inicio">
+      <section class="intro">
+        <h1>Hacé la vaquita en&nbsp;sats</h1>
+        <p class="lead">Cargá cuánto salió y quiénes ponen. Compartí el link por WhatsApp y cada uno paga su parte con Lightning. Cada pago se verifica solo, con el comprobante que firma la billetera: nadie tiene que mandar capturas.</p>
+      </section>
+
+      <div class="grid">
+        <form id="form-nueva" class="panel" novalidate autocomplete="off">
+          <h2>Nueva vaquita</h2>
+
+          <div class="campo">
+            <label for="titulo">¿Para qué es?</label>
+            <input id="titulo" name="titulo" maxlength="80" placeholder="Asado del sábado" required aria-describedby="err-titulo">
+            <p id="err-titulo" class="error" hidden></p>
+          </div>
+
+          <div class="campo">
+            <label for="total">¿Cuánto salió en total?</label>
+            <div class="monto">
+              <input id="total" name="total" inputmode="decimal" placeholder="60.000" required aria-describedby="err-total">
+              <select id="moneda" name="moneda" aria-label="Moneda">
+                <option value="ARS">pesos</option>
+                <option value="SAT">sats</option>
+              </select>
+            </div>
+            <p id="err-total" class="error" hidden></p>
+          </div>
+
+          <div class="campo">
+            <label for="nombres">¿Quiénes ponen? <span class="hint">Uno por línea, empezando por vos</span></label>
+            <textarea id="nombres" name="nombres" rows="5" placeholder="Martín&#10;Ana&#10;Beto&#10;Caro" required aria-describedby="err-nombres"></textarea>
+            <p id="err-nombres" class="error" hidden></p>
+          </div>
+
+          <label class="check">
+            <input id="yo-pague" name="yoPague" type="checkbox" checked>
+            <span>Ya pagué yo el gasto: mi parte cuenta como saldada</span>
+          </label>
+
+          <div class="campo">
+            <label for="direccion">Tu Lightning Address <span class="hint">Ahí llegan los pagos</span></label>
+            <input id="direccion" name="direccion" inputmode="email" autocapitalize="off" spellcheck="false" placeholder="vos@blink.sv" required aria-describedby="err-direccion ayuda-direccion">
+            <p id="err-direccion" class="error" hidden></p>
+            <p id="ayuda-direccion" class="note">¿No tenés? Se crea gratis en un minuto con <a href="https://www.blink.sv/" target="_blank" rel="noopener">Blink</a>, <a href="https://www.walletofsatoshi.com/" target="_blank" rel="noopener">Wallet of Satoshi</a> o <a href="https://coinos.io/" target="_blank" rel="noopener">Coinos</a>.</p>
+          </div>
+
+          <div id="vista-previa" class="preview" aria-live="polite">
+            <p id="previa-parte">Completá el total y los nombres para ver cuánto pone cada uno.</p>
+            <p id="previa-precio" class="note">Buscando la cotización del bitcoin…</p>
+          </div>
+
+          <button id="btn-crear" class="btn btn-primary btn-grande" type="submit">Crear vaquita</button>
+          <p id="err-crear" class="error" role="alert" hidden></p>
+        </form>
+
+        <aside class="side">
+          <section id="mis-vaquitas" class="panel" hidden>
+            <h2>Tus vaquitas</h2>
+            <ul id="lista-mias" class="mias"></ul>
+          </section>
+
+          <section class="panel como">
+            <h2>Cómo funciona</h2>
+            <ol>
+              <li><b>Creás la vaquita</b> con el total, los nombres y tu Lightning Address. Calculamos la parte de cada uno en sats.</li>
+              <li><b>Compartís el link.</b> Cada uno toca su nombre, escanea el QR y paga desde cualquier billetera Lightning.</li>
+              <li><b>Los pagos se verifican solos.</b> Tu billetera firma un comprobante (un <i>zap</i> de Nostr) y la vaquita se actualiza en vivo para todos.</li>
+            </ol>
+            <p class="note">Los nombres y montos viajan cifrados: la clave va en el link y ningún servidor la ve. No hace falta cuenta ni instalar nada.</p>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <!-- ============ Vaquita ============ -->
+    <main id="vista-vaquita" hidden>
+      <section id="cargando" class="panel estado-carga" aria-live="polite">
+        <p id="cargando-txt">Buscando la vaquita en los relays de Nostr…</p>
+        <button id="btn-reintentar" class="btn btn-ghost" type="button" hidden>Reintentar</button>
+        <a href="./" class="note" id="volver-inicio" hidden>Crear una vaquita nueva</a>
+      </section>
+
+      <div id="contenido" class="grid" hidden>
+        <div class="col">
+          <section class="board" aria-labelledby="v-titulo">
+            <p class="eyebrow">Vaquita</p>
+            <h1 id="v-titulo"></h1>
+            <p class="board-total"><strong id="v-total"></strong> <span id="v-total-sats"></span></p>
+            <div class="barra" role="progressbar" aria-labelledby="v-progreso" aria-valuemin="0" aria-valuemax="100" id="v-barra"><span id="v-barra-relleno"></span></div>
+            <p id="v-progreso" class="board-sub"></p>
+            <p id="v-completa" class="completa" hidden>🎉 ¡Vaquita completa! Ya pagaron todos.</p>
+          </section>
+
+          <section class="panel" aria-labelledby="t-personas">
+            <div class="panel-head">
+              <h2 id="t-personas">Quién pagó</h2>
+              <span id="v-en-vivo" class="vivo" title="Se actualiza sola">En vivo</span>
+            </div>
+            <ul id="personas" class="personas"></ul>
+            <p id="v-sin-asignar" class="note" hidden></p>
+            <p id="v-detalle" class="note"></p>
+          </section>
+        </div>
+
+        <aside class="side">
+          <section class="panel" aria-labelledby="t-compartir">
+            <h2 id="t-compartir">Compartir</h2>
+            <div class="copiar">
+              <input id="link-compartir" readonly aria-label="Link de la vaquita">
+              <button id="btn-copiar-link" class="btn btn-ghost" type="button">Copiar</button>
+            </div>
+            <div class="acciones">
+              <a id="btn-whatsapp" class="btn btn-whatsapp" target="_blank" rel="noopener">Mandar por WhatsApp</a>
+              <button id="btn-qr-link" class="btn btn-ghost" type="button" aria-expanded="false" aria-controls="qr-link">Mostrar QR</button>
+            </div>
+            <div id="qr-link" class="qr" hidden></div>
+          </section>
+
+          <section id="panel-admin" class="panel admin" aria-labelledby="t-admin" hidden>
+            <h2 id="t-admin">Organizás vos</h2>
+            <p class="note">Podés marcar a mano a quien te pagó en efectivo o por otro medio. Los zaps se marcan solos.</p>
+            <a id="btn-recordar" class="btn btn-ghost" target="_blank" rel="noopener">Recordarles a los que faltan</a>
+            <details class="admin-link">
+              <summary>Link de administración</summary>
+              <p class="note">Sirve para administrar esta vaquita desde otro dispositivo. <b>No lo compartas:</b> quien lo tenga puede editarla.</p>
+              <div class="copiar">
+                <input id="link-admin" readonly aria-label="Link de administración">
+                <button id="btn-copiar-admin" class="btn btn-ghost" type="button">Copiar</button>
+              </div>
+            </details>
+          </section>
+
+          <section class="panel" aria-labelledby="t-actividad">
+            <h2 id="t-actividad">Pagos verificados</h2>
+            <ul id="actividad" class="actividad"></ul>
+            <p id="actividad-vacia" class="note">Todavía no entró ningún pago.</p>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <p>Vaquita es software libre (MIT). Los pagos van directo a la billetera de quien organiza: la app nunca toca la plata. Hecho para las <a href="https://github.com/lacrypta/hackathons-2026" target="_blank" rel="noopener">Lightning Hackathons 2026 de La Crypta</a>.</p>
+      <p><a id="link-codigo" href="https://github.com/Peshino2012/vaquita-sats" target="_blank" rel="noopener">Código fuente</a> · Vaquita 1.0</p>
+    </footer>
+  </div>
+
+  <dialog id="dlg-pago" aria-labelledby="pago-titulo">
+    <div class="dlg-head">
+      <h2 id="pago-titulo">Pagar</h2>
+      <button id="pago-cerrar" class="cerrar" type="button" aria-label="Cerrar">×</button>
+    </div>
+    <div id="pago-cuerpo">
+      <p class="pago-monto"><strong id="pago-sats"></strong> <span id="pago-pesos"></span></p>
+      <div id="pago-qr" class="qr"></div>
+      <div class="acciones">
+        <a id="pago-abrir" class="btn btn-primary">Abrir mi billetera</a>
+        <button id="pago-copiar" class="btn btn-ghost" type="button">Copiar factura</button>
+        <button id="pago-webln" class="btn btn-ghost" type="button" hidden>Pagar con la extensión</button>
+      </div>
+      <p id="pago-estado" class="pago-estado" role="status" aria-live="polite"></p>
+    </div>
+    <div id="pago-listo" class="pago-listo" hidden>
+      <p class="tilde" aria-hidden="true">✓</p>
+      <p><strong>¡Pago recibido!</strong></p>
+      <p class="note">Verificado con el comprobante que firmó la billetera de quien organiza.</p>
+      <button id="pago-ok" class="btn btn-primary" type="button">Listo</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

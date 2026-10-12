@@ -1,0 +1,31 @@
+name: billeteras-reales
+
+# Comprueba contra servicios REALES que Blink, Wallet of Satoshi, Coinos,
+# Primal, Strike y npub.cash aceptan los pedidos de zap de Vaquita y que los
+# relays guardan y devuelven la vaquita cifrada. No paga nada.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 12 * * 1'
+
+permissions:
+  contents: write
+
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node probe/zaps-reales.mjs
+      - name: Guardar resultado
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add probe/zaps-reales.json
+          git diff --cached --quiet || git commit -m "probe: resultado con billeteras reales"
+          git pull --rebase && git push
+      - name: Falla si alguna billetera o relay no respondió
+        run: node -e "const r=require('./probe/zaps-reales.json'); const mal=[...r.billeteras.filter(b=>!b.ok),...r.relays.filter(x=>!x.leido)]; if(mal.length){console.error(mal); process.exit(1)}"

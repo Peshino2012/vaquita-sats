@@ -1,0 +1,269 @@
+{
+  "fecha": "2026-10-12T17:42:00.626Z",
+  "direcciones": [
+    {
+      "direccion": "hello@getalby.com",
+      "status": 429,
+      "corsInfo": null,
+      "texto": "{\"error\": \"user node offline. please contact the recipient and support@getalby.com - firewall error\"}"
+    },
+    {
+      "direccion": "blink@blink.sv",
+      "status": 200,
+      "corsInfo": "*",
+      "allowsNostr": true,
+      "nostrPubkey": "8fe53b37518e3dbe9bab26d912292001d8b882de9456b7b08b615f912dc8bf4a",
+      "commentAllowed": 255,
+      "minSendable": 13000,
+      "maxSendable": 50000000000,
+      "callbackHost": "lnurl.blink.sv",
+      "corsCallback": "*",
+      "callbackStatus": 200,
+      "hayFactura": true,
+      "verify": "https://lnurl.blink.sv/verify/b22a7907b53c9b6fe2cdd57ce093afeee2ac8182b5d89212c1e6ac05f435ec1f",
+      "corsVerify": "*",
+      "verifyRespuesta": {
+        "pr": "lnbc130n1p4v6xlfpp5kg48jpa48jdklckd647wpya0am32eqvzkhvfyykpu6kqtap4as0shp557j4q66c9v5dp26krpj0sc7fmd3vffp0pfurqrlajddwpu5t9msqcqzpuxqzfvsp50wmenjjshzmq89csaexvl4j8ztufjctkx4qrlez5l7aaqu4ep82q9qxpqysgq3y738qjnxks64f96symev46r8f6tahjl0d9hzgffs77jqj92nhes05xj96wf8fgq2tkwwgg0egswslz8x2tm7fvr8m39qkrussxn6rqpgf9ly9",
+        "preimage": null,
+        "settled": false,
+        "status": "OK"
+      }
+    },
+    {
+      "direccion": "galoy@blink.sv",
+      "status": 200,
+      "corsInfo": "*",
+      "texto": "{\"reason\":\"Couldn't find user 'galoy'.\",\"status\":\"ERROR\"}"
+    },
+    {
+      "direccion": "walletofsatoshi@walletofsatoshi.com",
+      "status": 200,
+      "corsInfo": "*",
+      "allowsNostr": true,
+      "nostrPubkey": "be1d89794bf92de5dd64c1e60f6a2c70c140abac9932418fee30c5c637fe9479",
+      "commentAllowed": 255,
+      "minSendable": 1000,
+      "maxSendable": 100000000000,
+      "callbackHost": "livingroomofsatoshi.com",
+      "corsCallback": "*",
+      "callbackStatus": 200,
+      "hayFactura": true,
+      "verify": null
+    },
+    {
+      "direccion": "coinos@coinos.io",
+      "status": 200,
+      "corsInfo": "https://peshino2012.github.io",
+      "allowsNostr": true,
+      "nostrPubkey": "e0c0ab7eb126bd4bd7168219c3dd195eb5ad92b7d7807ed2dda57f69c7c5d20d",
+      "commentAllowed": 200,
+      "minSendable": 1000,
+      "maxSendable": 500000000,
+      "callbackHost": "names.coinos.io",
+      "corsCallback": "*",
+      "callbackStatus": 200,
+      "hayFactura": true,
+      "verify": null
+    },
+    {
+      "direccion": "adam@coinos.io",
+      "status": 200,
+      "corsInfo": "https://peshino2012.github.io",
+      "allowsNostr": true,
+      "nostrPubkey": "e0c0ab7eb126bd4bd7168219c3dd195eb5ad92b7d7807ed2dda57f69c7c5d20d",
+      "commentAllowed": 200,
+      "minSendable": 1000,
+      "maxSendable": 500000000,
+      "callbackHost": "names.coinos.io",
+      "corsCallback": "*",
+      "callbackStatus": 200,
+      "hayFactura": true,
+      "verify": null
+    },
+    {
+      "direccion": "lacrypta@lawallet.ar",
+      "status": 404,
+      "corsInfo": "*",
+      "texto": "{\"data\":\"Not found\"}"
+    },
+    {
+      "direccion": "agustin@lawallet.ar",
+      "status": 200,
+      "corsInfo": "*",
+      "texto": "{\"status\":\"OK\",\"tag\":\"payRequest\",\"commentAllowed\":255,\"metadata\":\"[[\\\"text/plain\\\", \\\"lawallet\\\"]]\",\"minSendable\":1000,\"maxSendable\":10000000000,\"payerData\":{\"name\":{\"mandatory\":false},\"email\":{\"mandatory\":false},\"pubkey\":{\"mandatory\":false}},\"nostrPubkey\":\"e17feb5f2cf83546bcf7fd9c8237b05275be958bd…"
+    },
+    {
+      "direccion": "hackathons@lacrypta.ar",
+      "status": 404,
+      "corsInfo": "*",
+      "texto": "{\"success\":false,\"error\":{\"message\":\"Lightning address not found\",\"code\":\"NOT_FOUND\"}}"
+    },
+    {
+      "direccion": "lacrypta@lacrypta.ar",
+      "status": 404,
+      "corsInfo": "*",
+      "texto": "{\"success\":false,\"error\":{\"message\":\"Lightning address not found\",\"code\":\"NOT_FOUND\"}}"
+    },
+    {
+      "direccion": "primal@primal.net",
+      "status": 200,
+      "corsInfo": "*",
+      "allowsNostr": true,
+      "nostrPubkey": "f81611363554b64306467234d7396ec88455707633f54738f6c4683535098cd3",
+      "commentAllowed": 200,
+      "minSendable": 1000,
+      "maxSendable": 11000000000,
+      "callbackHost": "primal.net",
+      "corsCallback": "*",
+      "callbackStatus": 200,
+      "hayFactura": true,
+      "verify": null
+    },
+    {
+      "direccion": "sn@stacker.news",
+      "status": 200,
+      "corsInfo": "*",
+      "allowsNostr": false,
+      "nostrPubkey": null,
+      "commentAllowed": 1000,
+      "minSendable": 2000,
+      "maxSendable": 721649000,
+      "callbackHost": "stacker.news",
+      "corsCallback": "*",
+      "callbackStatus": 400,
+      "hayFactura": false,
+      "verify": null,
+      "callbackTexto": "{\"status\":\"ERROR\",\"reason\":\"could not generate invoice to customer's attached wallet\"}"
+    },
+    {
+      "direccion": "jack@strike.me",
+      "status": 200,
+      "corsInfo": "*",
+      "allowsNostr": true,
+      "nostrPubkey": "8b7cd4981e30ed2dd6b5ef1f816763453b282b3e44f41ef2a3da77ff5ef8d141",
+      "commentAllowed": 200,
+      "minSendable": 100000,
+      "maxSendable": 16000000000,
+      "callbackHost": "strike.me",
+      "corsCallback": "*",
+      "callbackStatus": 200,
+      "hayFactura": true,
+      "verify": null
+    },
+    {
+      "direccion": "support@minibits.cash",
+      "status": 404,
+      "corsInfo": "*",
+      "texto": "{\"error\":{\"statusCode\":404,\"name\":\"NOTFOUND_ERROR\",\"message\":\"Name not found\",\"params\":{\"name\":\"support\",\"caller\":\"LnurlRequest\",\"reqId\":\"req-13m2\",\"statusCode\":404}}}"
+    },
+    {
+      "direccion": "npub1sg6plzptd64u62a878hep2kev88swjh3tw00gjsfl8f237lmu63q0uf63m@npub.cash",
+      "status": 200,
+      "corsInfo": "*",
+      "allowsNostr": true,
+      "nostrPubkey": "8576fd19bfe693cba6f0aee33b8427334306846ec61b65e2d617209e1c021046",
+      "commentAllowed": 0,
+      "minSendable": 1000,
+      "maxSendable": 100000000,
+      "callbackHost": "npub.cash",
+      "corsCallback": "*",
+      "callbackStatus": 200,
+      "hayFactura": true,
+      "verify": null
+    }
+  ],
+  "precios": [
+    {
+      "url": "https://criptoya.com/api/btc/ars/0.1",
+      "status": 200,
+      "cors": "*",
+      "muestra": "{\"ripio\":{\"ask\":134012142.58,\"totalAsk\":134012142.58,\"bid\":128941673.84,\"totalBid\":128941673.84,\"time\":1791826923},\"satoshitango\":{\"ask\":135350251.83,\"totalAsk\":136027003.09,\"bid\":132549878.98,\"totalBid\":131887129.59,\"time\":1791826920},\"universalcoins\":{\"ask\":137656931,\"totalAsk\":138001073.33,\"bid\":…"
+    },
+    {
+      "url": "https://criptoya.com/api/bitso/btc/ars",
+      "status": 200,
+      "cors": null,
+      "muestra": "Invalid pair"
+    },
+    {
+      "url": "https://api.yadio.io/exrates/btc",
+      "status": 200,
+      "cors": "*",
+      "muestra": "{\"BTC\":{\"BTC\":1,\"AED\":302509.81,\"AFN\":5439410.64,\"ALL\":6266421.81,\"AMD\":29427861.48,\"ANG\":147445.22,\"AOA\":84249721.63,\"ARS\":132554947.56,\"AUD\":118406.67,\"AWG\":147445.22,\"AZN\":140031.77,\"BAM\":144524.8,\"BBD\":164743.26,\"BDT\":10487378.11,\"BHD\":30971.73,\"BIF\":498421244.57,\"BMD\":82371.63,\"BND\":114822.84,\"…"
+    },
+    {
+      "url": "https://api.yadio.io/convert/1/btc/ars",
+      "status": 200,
+      "cors": "*",
+      "muestra": "{\"request\":{\"amount\":1,\"from\":\"BTC\",\"to\":\"ARS\"},\"result\":132554947.56,\"rate\":132554947.561396,\"timestamp\":1791826811801}"
+    },
+    {
+      "url": "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=ars,usd",
+      "status": 200,
+      "cors": "*",
+      "muestra": "{\"bitcoin\":{\"ars\":124971049,\"usd\":82392}}"
+    },
+    {
+      "url": "https://mempool.space/api/v1/prices",
+      "status": 200,
+      "cors": "*",
+      "muestra": "{\"time\":1791826816,\"USD\":82382,\"EUR\":73837,\"GBP\":62522,\"CAD\":117650,\"CHF\":68776,\"AUD\":118413,\"JPY\":13095905}"
+    },
+    {
+      "url": "https://dolarapi.com/v1/dolares/cripto",
+      "status": 200,
+      "cors": "*",
+      "muestra": "{\n  \"moneda\": \"USD\",\n  \"casa\": \"cripto\",\n  \"nombre\": \"Cripto\",\n  \"compra\": 1606.98,\n  \"venta\": 1609.85,\n  \"fechaActualizacion\": \"2026-10-12T16:56:00.000Z\"\n}"
+    }
+  ],
+  "relays": [
+    {
+      "relay": "wss://relay.damus.io",
+      "ms": 124,
+      "ok": false,
+      "error": "Received network error or non-101 status code."
+    },
+    {
+      "relay": "wss://nos.lol",
+      "ms": 731,
+      "ok": true,
+      "eventos": 2
+    },
+    {
+      "relay": "wss://relay.primal.net",
+      "ms": 752,
+      "ok": true,
+      "eventos": 2
+    },
+    {
+      "relay": "wss://relay.nostr.band",
+      "ms": 10326,
+      "ok": false,
+      "error": "Received network error or non-101 status code."
+    },
+    {
+      "relay": "wss://relay.lawallet.ar",
+      "ms": 1131,
+      "ok": true,
+      "eventos": 2
+    },
+    {
+      "relay": "wss://relay.lacrypta.ar",
+      "ms": 1103,
+      "ok": true,
+      "eventos": 2
+    },
+    {
+      "relay": "wss://relay.snort.social",
+      "ms": 708,
+      "ok": true,
+      "eventos": 2
+    },
+    {
+      "relay": "wss://nostr.mom",
+      "ms": 959,
+      "ok": true,
+      "eventos": 2
+    }
+  ]
+}

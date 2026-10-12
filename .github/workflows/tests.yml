@@ -1,0 +1,23 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: El bundle de vendor/ corresponde a las dependencias declaradas
+        run: npm run vendor && git diff --exit-code vendor/
+      - name: Tests unitarios
+        run: npm test
+      - run: npx playwright install --with-deps chromium
+      - name: Tests de punta a punta (navegador real, relay local, billetera simulada)
+        run: npm run test:e2e

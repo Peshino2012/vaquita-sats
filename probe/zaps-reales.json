@@ -1,0 +1,75 @@
+{
+  "fecha": "2026-10-12T17:42:54.214Z",
+  "billeteras": [
+    {
+      "direccion": "blink@blink.sv",
+      "allowsNostr": true,
+      "ok": true,
+      "sats": 21,
+      "factura": "lnbc210n1p4v68q7pp5tp9wk…",
+      "verify": true
+    },
+    {
+      "direccion": "walletofsatoshi@walletofsatoshi.com",
+      "allowsNostr": true,
+      "ok": true,
+      "sats": 21,
+      "factura": "lnbc210n1p4v68qlpp50l2gw…",
+      "verify": false
+    },
+    {
+      "direccion": "coinos@coinos.io",
+      "allowsNostr": true,
+      "ok": true,
+      "sats": 21,
+      "factura": "lnbc210n1p4v68pxsp5lp0sq…",
+      "verify": false
+    },
+    {
+      "direccion": "primal@primal.net",
+      "allowsNostr": true,
+      "ok": true,
+      "sats": 21,
+      "factura": "lnbc210n1p4v68p8pp5fwjn8…",
+      "verify": false
+    },
+    {
+      "direccion": "jack@strike.me",
+      "allowsNostr": true,
+      "ok": true,
+      "sats": 100,
+      "factura": "lnbc1u1p4v68pgpp5h5w3xh8…",
+      "verify": false
+    },
+    {
+      "direccion": "npub1sg6plzptd64u62a878hep2kev88swjh3tw00gjsfl8f237lmu63q0uf63m@npub.cash",
+      "allowsNostr": true,
+      "ok": true,
+      "sats": 21,
+      "factura": "lnbc210n1p4v68pfpp5gjtf6…",
+      "verify": false
+    }
+  ],
+  "relays": [
+    {
+      "relay": "wss://relay.lacrypta.ar",
+      "publicado": true,
+      "leido": true
+    },
+    {
+      "relay": "wss://relay.damus.io",
+      "publicado": true,
+      "leido": true
+    },
+    {
+      "relay": "wss://nos.lol",
+      "publicado": true,
+      "leido": true
+    },
+    {
+      "relay": "wss://relay.primal.net",
+      "publicado": true,
+      "leido": true
+    }
+  ]
+}
