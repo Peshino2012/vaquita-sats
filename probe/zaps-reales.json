@@ -1,12 +1,12 @@
 {
-  "fecha": "2026-10-19T18:44:13.362Z",
+  "fecha": "2026-11-02T21:44:06.372Z",
   "billeteras": [
     {
       "direccion": "blink@blink.sv",
       "allowsNostr": true,
       "ok": true,
       "sats": 21,
-      "factura": "lnbc210n1p4dve87pp5k8ear…",
+      "factura": "lnbc210n1p4wjppxpp5pz8sf…",
       "verify": true
     },
     {
@@ -14,7 +14,7 @@
       "allowsNostr": true,
       "ok": true,
       "sats": 21,
-      "factura": "lnbc210n1p4dve8lpp58ysku…",
+      "factura": "lnbc210n1p4wjppgpp52ld36…",
       "verify": false
     },
     {
@@ -22,7 +22,7 @@
       "allowsNostr": true,
       "ok": true,
       "sats": 21,
-      "factura": "lnbc210n1p4dveg9sp5lhk77…",
+      "factura": "lnbc210n1p4wjpp2sp54fl8m…",
       "verify": false
     },
     {
@@ -30,7 +30,7 @@
       "allowsNostr": true,
       "ok": true,
       "sats": 21,
-      "factura": "lnbc210n1p4dveg8pp5vtnl0…",
+      "factura": "lnbc210n1p4wjppvpp58p47z…",
       "verify": false
     },
     {
@@ -38,7 +38,7 @@
       "allowsNostr": true,
       "ok": true,
       "sats": 100,
-      "factura": "lnbc1u1p4dvegfpp5fhfu83d…",
+      "factura": "lnbc1u1p4wjppwpp55a9z0v5…",
       "verify": false
     },
     {
@@ -46,7 +46,7 @@
       "allowsNostr": true,
       "ok": true,
       "sats": 21,
-      "factura": "lnbc210n1p4dveg2pp5l3l4w…",
+      "factura": "lnbc210n1p4wjpp0pp5v38ee…",
       "verify": true
     }
   ],
